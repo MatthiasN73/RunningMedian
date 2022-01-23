@@ -12,7 +12,7 @@
 
 #include "Arduino.h"
 
-#define RUNNING_MEDIAN_VERSION        (F("0.3.4"))
+#define RUNNING_MEDIAN_VERSION        (F("0.3.5"))
 
 
 // fall back to fixed storage for dynamic version => remove true
@@ -44,27 +44,27 @@ public:
   // resets internal buffer and variables
   void    clear();
   // adds a new value to internal buffer, optionally replacing the oldest element.
-  void    add(const float value);
+  void    add(const double value);
   // returns the median == middle element
-  float   getMedian();
+  double   getMedian();
   
   // returns the Quantile
-  float   getQuantile(const float quantile);
+  double   getQuantile(const double quantile);
 
   // returns average of the values in the internal buffer
-  float   getAverage();
+  double   getAverage();
   // returns average of the middle nMedian values, removes noise from outliers
-  float   getAverage(uint8_t nMedian);
+  double   getAverage(uint8_t nMedian);
 
-  float   getHighest() { return getSortedElement(_count - 1); };
-  float   getLowest()  { return getSortedElement(0); };
+  double   getHighest() { return getSortedElement(_count - 1); };
+  double   getLowest()  { return getSortedElement(0); };
 
   // get n-th element from the values in time order
-  float   getElement(const uint8_t n);
+  double   getElement(const uint8_t n);
   // get n-th element from the values in size order
-  float   getSortedElement(const uint8_t n);
+  double   getSortedElement(const uint8_t n);
   // predict the max change of median after n additions
-  float   predict(const uint8_t n);
+  double   predict(const uint8_t n);
 
   uint8_t getSize()    { return _size; };
   // returns current used elements, getCount() <= getSize()
@@ -82,10 +82,10 @@ protected:
   // _values holds the elements themself
   // _p  holds the index for sorted 
 #ifdef RUNNING_MEDIAN_USE_MALLOC
-  float *   _values;
+  double *   _values;
   uint8_t * _sortIdx;
 #else
-  float   _values[MEDIAN_MAX_SIZE];
+  double   _values[MEDIAN_MAX_SIZE];
   uint8_t _p[MEDIAN_MAX_SIZE];
 #endif
   void sort();
